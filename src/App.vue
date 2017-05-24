@@ -1,60 +1,147 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
-    <h1></h1>
-    <h2>Essential Links</h2>
-    <ul>
-      <li><a href="https://vuejs.org" target="_blank">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank">Forum</a></li>
-      <li><a href="https://gitter.im/vuejs/vue" target="_blank">Gitter Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank">Twitter</a></li>
-    </ul>
-    <h2>Ecosystem</h2>
-    <ul>
-      <li><a href="http://router.vuejs.org/" target="_blank">vue-router</a></li>
-      <li><a href="http://vuex.vuejs.org/" target="_blank">vuex</a></li>
-      <li><a href="http://vue-loader.vuejs.org/" target="_blank">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank">awesome-vue</a></li>
-    </ul>
+    <h1>My Blog</h1> 
+
+    <table>
+      <thead>
+        <tr>
+          <th>id</th>
+          <th>Title</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="article in articles">
+          <td>{{article.id}}</td>
+          <td>{{article.title}}</td>
+        </tr>
+      </tbody>
+    </table>  
   </div>
 </template>
 
 <script>
-export default {
-  name: 'app',
-  data () {
-    return {
-      msg: 'Welcome to Your Vue.js App'
+  import axios from 'axios'
+
+  export default {
+    name: 'app',
+    data: function () {
+      return {
+        articles: []
+      }
+    },
+    methods: {
+      fetchArticles: function () {
+        axios.get('http://localhost:3000/articles').then((response) => {
+          this.articles = response.data
+        }, (error) => {
+          console.log(error)
+        })
+      }
+    },
+    mounted: function () {
+      this.fetchArticles()
     }
   }
-}
 </script>
 
+
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+  body {
+    background-color: #444444;
+    font-family: Verdana, Helvetica, Arial;
+    font-size: 14px;
+  }
 
-h1, h2 {
-  font-weight: normal;
-}
+  a img {
+    border: none;
+  }
 
-ul {
-  list-style-type: none;
-  padding: 0;
-}
+  a {
+    color: #0000FF;
+  }
 
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
+  .clear {
+    clear: both;
+    height: 0;
+    overflow: hidden;
+  }
 
-a {
-  color: #42b983;
-}
+  #app {
+    width: 75%;
+    margin: 0 auto;
+    background-color: #FFF;
+    padding: 20px 40px;
+    border: solid 1px black;
+    margin-top: 20px;
+    position: relative;
+  }
+
+  #flash_notice, #flash_error, #flash_alert {
+    padding: 5px 8px;
+    margin: 10px 0;
+    margin-right: 150px;
+  }
+
+  #flash_notice {
+    background-color: #CFC;
+    border: solid 1px #6C6;
+  }
+
+  #flash_error, #flash_alert {
+    background-color: #FCC;
+    border: solid 1px #C66;
+  }
+
+  .field_with_errors {
+    display: inline;
+  }
+
+  .error_messages {
+    width: 400px;
+    border: 2px solid #CF0000;
+    padding: 0px;
+    padding-bottom: 12px;
+    margin-bottom: 20px;
+    background-color: #f0f0f0;
+    font-size: 12px;
+  }
+
+  .error_messages h2 {
+    text-align: left;
+    font-weight: bold;
+    padding: 5px 10px;
+    font-size: 12px;
+    margin: 0;
+    background-color: #c00;
+    color: #fff;
+  }
+
+  .error_messages p {
+    margin: 8px 10px;
+  }
+
+  form .field, form .actions {
+    margin: 12px 0;
+  }
+
+  h4 {
+    margin-bottom: 5px;
+  }
+
+  table {
+      border-collapse: collapse;
+      width: 100%;
+  }
+
+  th, td {
+      text-align: left;
+      padding: 8px;
+  }
+
+  tr:nth-child(even){background-color: #f2f2f2}
+
+  th {
+      background-color: #4CAF50;
+      color: white;
+  }
 </style>
